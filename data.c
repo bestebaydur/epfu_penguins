@@ -18,22 +18,30 @@
 * -  void SetScore(int id, int value)
 *	Where id is number of player.
 *	Sets value as a score of target player.
+* -  int* GetPenguin(int index)
+*	Where index is the index of penguin.
+*	Returns position [x, y] of target penguin.
+* -  void SetPenguin(int index, int x, int y)
+*	Where index is the index of penguin.
+*	Sets position [x, y] of target penguin.
 */
 
 #include <stdio.h>
 
 
 // Global variables.
+int PLAYER_ID;
 int NUM_OF_PLAYERS;
 int PENG_PER_PLAYER;
 int WIDTH;
 int HEIGHT;
-int* BOARD;
-int* SCORES;
 
 // Local variables.
 static FILE* input_file;
 static FILE* output_file;
+static int* board;
+static int* scores;
+static int* penguins;
 
 // Local functions.
 static void openFiles(char* input, char* output);
@@ -45,6 +53,7 @@ static void loadScores();
 static void writeSettings();
 static void writeBoard();
 static void writeScores();
+static void findPenguins();
 
 
 ////	GLOBAL	////
@@ -55,6 +64,7 @@ void LoadData() {
 	allocateMemory();
 	loadBoard();
 	loadScores();
+	findPenguins();
 }
 
 void WriteData() {
@@ -65,19 +75,32 @@ void WriteData() {
 }
 
 int GetField(int x, int y) {
-	return *(BOARD + y * WIDTH + x);
+	return *(board + y * WIDTH + x);
 }
 
 void SetField(int x, int y, int value) {
-	*(BOARD + y * WIDTH + x) = value;
+	*(board + y * WIDTH + x) = value;
 }
 
 int GetScore(int id) {
-	return *(SCORES + id - 1);
+	return *(scores + id - 1);
 }
 
 void SetScore(int id, int value) {
-	*(SCORES + id - 1) = value;
+	*(scores + id - 1) = value;
+}
+
+int* GetPenguin(int index) {
+	int arr[2];
+	arr[0] = *(penguins + index * 2);
+	arr[1] = *(penguins + index * 2 + 1);
+	
+	return arr;
+}
+
+void SetPenguin(int index, int x, int y) {
+	*(penguins + index * 2) = x;
+	*(penguins + index * 2 + 1) = y;
 }
 
 
@@ -94,8 +117,9 @@ static void closeFiles() {
 }
 
 static void allocateMemory() {
-	BOARD = (int*)calloc(WIDTH * HEIGHT, sizeof(int));
-	SCORES = (int*)calloc(NUM_OF_PLAYERS, sizeof(int));
+	board = (int*)calloc(WIDTH * HEIGHT, sizeof(int));
+	scores = (int*)calloc(NUM_OF_PLAYERS, sizeof(int));
+	penguins = (int*)calloc(PENG_PER_PLAYER * 2, sizeof(int));
 }
 
 static void loadSettings() {
@@ -147,4 +171,15 @@ static void writeScores() {
 
 	for (i = 1; i <= NUM_OF_PLAYERS; i++)
 		fprintf(output_file, "%d\n", GetScore(i));
+}
+
+static void findPenguins() {
+	int i, j, index;
+
+	index = 0;
+
+	for (j = 0; j < HEIGHT; j++)
+		for (i = 0; i < WIDTH; i++)
+			if (GetField(i, j) == -PLAYER_ID)
+				SetPenguin(index++, i, j);
 }

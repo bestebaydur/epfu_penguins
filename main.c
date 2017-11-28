@@ -5,6 +5,14 @@
 #include <stdio.h>
 
 
+// Global variables.
+int PLAYER_ID;
+int NUM_OF_PLAYERS;
+int PENG_PER_PLAYER;
+int WIDTH;
+int HEIGHT;
+
+
 // Global functions.
 void LoadData();
 void WriteData();
@@ -12,21 +20,13 @@ int GetField(int x, int y);
 void SetField(int x, int y, int value);
 int GetScore(int id);
 void SetScore(int id, int value);
+int* GetPenguin(int index);
+void SetPenguin(int index, int x, int y);
 void ShowData();
 void MakePlacement(int* input);
 void MakeMovement(int* input);
 int* GetUserInput(isPlacementPhase);
 int* ChooseInput(isPlacementPhase);
-
-
-// Global variables.
-int PLAYER_ID;
-int NUM_OF_PLAYERS;
-int PENG_PER_PLAYER;
-int WIDTH;
-int HEIGHT;
-int* BOARD;
-int* SCORES;
 
 
 // Local functions.
@@ -36,7 +36,7 @@ int* getInput(int isInteractiveMode, int isPlacementPhase);
 ////	MAIN	////
 
 int main(int argc, char** argv) {
-	// [x, y] for placement and [direction, distance] for movement
+	// [x, y] for placement and [penguin_index, direction, distance] for movement
 	int* input; 
 	int isPlacementPhase, isInteractiveMode;
 	
@@ -86,25 +86,37 @@ int* getInput(int isInteractiveMode, int isPlacementPhase) {
 
 // Temporary functions.
 void ShowData() {
-	printf("%d\n", WIDTH);
-	printf("%d\n", HEIGHT);
-	printf("%d\n", NUM_OF_PLAYERS);
-	printf("%d\n", PENG_PER_PLAYER);
+	printf("\n");
+	printf("WIDTH: %d\n", WIDTH);
+	printf("HEIGHT: %d\n", HEIGHT);
+	printf("NUM_OF_PLAYERS: %d\n", NUM_OF_PLAYERS);
+	printf("PENG_PER_PLAYER: %d\n", PENG_PER_PLAYER);
 	printf("\n");
 
 
-	int i, j;
+	int i, j, k;
 
 	for (j = 0; j < HEIGHT; j++) {
 		for (i = 0; i < WIDTH; i++) {
-			printf("%d ", GetField(i, j));
+			if (GetField(i, j) < 0) {
+				if(GetField(i, j) == -PLAYER_ID)
+					for (k = 0; k < PENG_PER_PLAYER; k++) {
+						if (GetPenguin(k)[0] == i && GetPenguin(k)[1] == j)
+							printf("( %d )", k);
+					}
+				else
+					printf(" %d  ", GetField(i, j));
+			}
+			else
+				printf("  %d  ", GetField(i, j));
 		}
 		printf("\n");
 	}
 	printf("\n");
 
+	printf("Scores: \n\n");
 	for (i = 1; i <= NUM_OF_PLAYERS; i++) {
-		printf("%d ", GetScore(i));
+		printf("Player %d: %d ", i, GetScore(i));
 		printf("\n");
 	}
 }
