@@ -25,36 +25,43 @@ void SetPenguin(int index, int x, int y);
 void ShowData();
 void MakePlacement(int* input);
 void MakeMovement(int* input);
-int* GetUserInput(int isPlacementPhase);
-int* ChooseInput(int isPlacementPhase);
+int GetUserInput(int isPlacementPhase, int* input);
+int ChooseInput(int isPlacementPhase, int* input);
 
 
 // Local functions.
-int* getInput(int isInteractiveMode, int isPlacementPhase);
+void  getInput(int isInteractiveMode, int isPlacementPhase, int* input);
 
 
 ////	MAIN	////
 
 int main(int argc, char** argv) {
 	// [x, y] for placement and [penguin_index, direction, distance] for movement
-	int* input; 
+	int input[3]; 
 	int isPlacementPhase, isInteractiveMode;
 	
+	if (argc < 4) {
+		printf("Arguments missing");
+		exit(1);
+	}
+
 	isPlacementPhase = atoi(argv[1]);
 	isInteractiveMode = atoi(argv[2]);
 	PLAYER_ID = atoi(argv[3]);
 
 	LoadData();
 
-	input = getInput(isInteractiveMode, isPlacementPhase);
+	if (isInteractiveMode)
+		ShowData();
+
+	getInput(isInteractiveMode, isPlacementPhase, input);
 
 	if (isPlacementPhase)
 		MakePlacement(input);
 	else
 		MakeMovement(input);
 
-	if (isInteractiveMode)
-		ShowData();
+	ShowData();
 
 	WriteData();
 
@@ -64,21 +71,19 @@ int main(int argc, char** argv) {
 
 ////	LOCAL	////
 
-int* getInput(int isInteractiveMode, int isPlacementPhase) {
-	int* input;
+void getInput(int isInteractiveMode, int isPlacementPhase, int* input) {
+	int valid;
 
 	while (1) {
 		// GetInput gets user's input, while ChooseInput determines and returns input.
 		// If user types invalid data, GetUserInput returns 0.
-		input = (isInteractiveMode) ? GetUserInput(isPlacementPhase) : ChooseInput(isPlacementPhase);
+		valid = (isInteractiveMode) ? GetUserInput(isPlacementPhase, input) : ChooseInput(isPlacementPhase, input);
 
-		if (!input)
+		if (valid)
 			break;
 		else
 			printf("Invalid input.\n");
 	}
-
-	return input;
 }
 
 
@@ -101,18 +106,21 @@ void ShowData() {
 
 
 	for (j = 0; j < HEIGHT; j++) {
+		if (j % 2)
+			printf("   ");
+
 		for (i = 0; i < WIDTH; i++) {
 			if (GetField(i, j) < 0) {
 				if(GetField(i, j) == -PLAYER_ID)
 					for (k = 0; k < PENG_PER_PLAYER; k++) {
 						if (GetPenguin(k)[0] == i && GetPenguin(k)[1] == j)
-							printf("( %d )", k);
+							printf("( %d ) ", k);
 					}
 				else
-					printf(" %d  ", GetField(i, j));
+					printf(" %d   ", GetField(i, j));
 			}
 			else
-				printf("  %d  ", GetField(i, j));
+				printf("  %d   ", GetField(i, j));
 		}
 		printf("\n");
 	}
@@ -125,6 +133,16 @@ void ShowData() {
 	}
 }
 void MakePlacement(int* input) {}
-void MakeMovement(int* input) {}
-int* GetUserInput(int isPlacementPhase) { return 0; }
-int* ChooseInput(int isPlacementPhase) { return 0; }
+int GetUserInput(int isPlacementPhase, int* input) {
+	//Temporary
+	int p, dir, dis;
+
+	scanf("%d %d %d", &p, &dir, &dis);
+
+	input[0] = p;
+	input[1] = dir;
+	input[2] = dis;
+
+	return 1;
+}
+int ChooseInput(int isPlacementPhase, int* input) { return 1; }
