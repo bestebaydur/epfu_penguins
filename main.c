@@ -107,22 +107,22 @@ void ShowData() {
 
 	for (j = 0; j < HEIGHT; j++) {
 		if (j % 2)
-			printf("   ");
+			printf("    ");
 
 		for (i = 0; i < WIDTH; i++) {
 			if (GetField(i, j) < 0) {
 				if(GetField(i, j) == -PLAYER_ID)
 					for (k = 0; k < PENG_PER_PLAYER; k++) {
 						if (GetPenguin(k)[0] == i && GetPenguin(k)[1] == j)
-							printf("( %d ) ", k);
+							printf("( %d )  ", k);
 					}
 				else
-					printf(" %d   ", GetField(i, j));
+					printf(" %d    ", GetField(i, j));
 			}
 			else
-				printf("  %d   ", GetField(i, j));
+				printf("  %d    ", GetField(i, j));
 		}
-		printf("\n");
+		printf("\n\n\n");
 	}
 	printf("\n");
 

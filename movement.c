@@ -1,5 +1,10 @@
 /*
 * @author: Dawid Kopiczko
+*
+* File provides function:
+* -  void MakeMovement(int* input)
+*	It move target penguin in target direction for target distance from input.
+*	Also checks for possibility of this action and updates data.
 */
 
 #include <stdio.h>
@@ -53,7 +58,7 @@ void MakeMovement(int* input) {
 			break;
 	}
 
-	if(distance > 0)
+	if(GetPenguin(penguin)[0] != last_position[0] || GetPenguin(penguin)[1] != last_position[1])
 		updateData(penguin, last_position);
 }
 
