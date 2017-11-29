@@ -91,11 +91,7 @@ void SetScore(int id, int value) {
 }
 
 int* GetPenguin(int index) {
-	int arr[2];
-	arr[0] = *(penguins + index * 2);
-	arr[1] = *(penguins + index * 2 + 1);
-	
-	return arr;
+	return (penguins + index * 2);
 }
 
 void SetPenguin(int index, int x, int y) {
@@ -182,4 +178,7 @@ static void findPenguins() {
 		for (i = 0; i < WIDTH; i++)
 			if (GetField(i, j) == -PLAYER_ID)
 				SetPenguin(index++, i, j);
+
+	for(; index < PENG_PER_PLAYER; index++)
+		SetPenguin(index, -1, -1);
 }

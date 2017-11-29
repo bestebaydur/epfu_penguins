@@ -25,8 +25,8 @@ void SetPenguin(int index, int x, int y);
 void ShowData();
 void MakePlacement(int* input);
 void MakeMovement(int* input);
-int* GetUserInput(isPlacementPhase);
-int* ChooseInput(isPlacementPhase);
+int* GetUserInput(int isPlacementPhase);
+int* ChooseInput(int isPlacementPhase);
 
 
 // Local functions.
@@ -86,15 +86,19 @@ int* getInput(int isInteractiveMode, int isPlacementPhase) {
 
 // Temporary functions.
 void ShowData() {
+	int i, j, k;
+
 	printf("\n");
 	printf("WIDTH: %d\n", WIDTH);
 	printf("HEIGHT: %d\n", HEIGHT);
 	printf("NUM_OF_PLAYERS: %d\n", NUM_OF_PLAYERS);
 	printf("PENG_PER_PLAYER: %d\n", PENG_PER_PLAYER);
+	printf("PENGS: ");
+	for(i = 0; i < PENG_PER_PLAYER; i++)
+		printf("(%d, %d) ", GetPenguin(i)[0], GetPenguin(i)[1]);
+	printf("\n");
 	printf("\n");
 
-
-	int i, j, k;
 
 	for (j = 0; j < HEIGHT; j++) {
 		for (i = 0; i < WIDTH; i++) {
@@ -122,5 +126,5 @@ void ShowData() {
 }
 void MakePlacement(int* input) {}
 void MakeMovement(int* input) {}
-int* GetUserInput(isPlacementPhase) { return 0; }
-int* ChooseInput(isPlacementPhase) { return 0; }
+int* GetUserInput(int isPlacementPhase) { return 0; }
+int* ChooseInput(int isPlacementPhase) { return 0; }
