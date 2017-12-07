@@ -31,7 +31,7 @@
 #include <stdio.h>
 
 
-// Global variables.
+// Global variables..
 int PLAYER_ID;
 int NUM_OF_PLAYERS;
 int PENG_PER_PLAYER;
