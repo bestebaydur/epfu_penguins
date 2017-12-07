@@ -138,33 +138,49 @@ void ShowData() {
 }
 void MakePlacement(int* input) {}
 int GetUserInput(int isPlacementPhase, int* input) {
-	int p, dir, dis;
+	int i1, i2, i3;
 
-	scanf("%d %d %d", &p, &dir, &dis);
+	if(isPlacementPhase){
+		// Not implemented.
+	}
+	else{
+		printf("\nChoose: peng index, direction and distance.\n\n");
+		scanf("%d %d %d", &i1, &i2, &i3);
 
-	input[0] = p;
-	input[1] = dir;
-	input[2] = dis;
+		input[0] = i1;
+		input[1] = i2;
+		input[2] = i3;
 
-	return 1;
+		return 1;
+	}
+
+	return 0;
 }
 int ChooseInput(int isPlacementPhase, int* input) {
-	int seed, i;
-	int* pos;
+	int seed, i, j;
+	int pos[2];
 	time_t tt;
 	
 	seed = time(&tt);
 	srand(seed);
 
-	input[0] = rand() % PENG_PER_PLAYER;
-	for(i = 0; i < 20; i++){
-		pos = GetPenguin(input[0]);
-		input[1] = rand() % 6;
-		input[2] = rand() % 5;
-		ChangePosition(pos, input[1]);
-		if(CheckPosition(pos))
-			return 1;
+	if(isPlacementPhase){
+		// Not implemented.
+	}
+	else{
+		input[0] = rand() % PENG_PER_PLAYER;
+		for(j = 0; j < PENG_PER_PLAYER; j++)
+			for(i = 0; i < 50; i++){
+				pos[0] = GetPenguin(input[0])[0];
+				pos[1] = GetPenguin(input[0])[1];
+				input[1] = rand() % 6;
+				input[2] = rand() % 5;
+				ChangePosition(pos, input[1]);
+				if(CheckPosition(pos))
+					return 1;
+			}
+		return 1;
 	}
 
-	return 1;
+	return 0;
 }
