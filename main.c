@@ -136,12 +136,35 @@ void ShowData() {
 		printf("\n");
 	}
 }
-void MakePlacement(int* input) {}
+void MakePlacement(int* input) {
+	int i, x, y;
+	x = input[0];
+	y = input[1];
+
+	for(i = 0; i < PENG_PER_PLAYER; i++){
+		printf("%d\n", GetPenguin(i)[0]);
+		if(GetPenguin(i)[0] == -1){
+			SetPenguin(i, x, y);
+			SetField(x, y, -PLAYER_ID);
+			SetScore(PLAYER_ID, 1);
+			break;
+		}
+	}
+}
 int GetUserInput(int isPlacementPhase, int* input) {
 	int i1, i2, i3;
 
 	if(isPlacementPhase){
-		// Not implemented.
+		printf("\nChoose: x and y coordinates.\n\n");
+		scanf("%d %d", &i1, &i2);
+
+		input[0] = i1;
+		input[1] = i2;
+
+		if(GetField(i1, i2) == 1)
+			return 1;
+		else
+			return 0;
 	}
 	else{
 		printf("\nChoose: peng index, direction and distance.\n\n");
