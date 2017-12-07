@@ -188,7 +188,12 @@ int ChooseInput(int isPlacementPhase, int* input) {
 	srand(seed);
 
 	if(isPlacementPhase){
-		// Not implemented.
+		input[0] = rand() % WIDTH;
+		input[1] = rand() % HEIGHT;
+		if(GetField(input[0], input[1]) == 1)
+			return 1;
+		else
+			return 0;
 	}
 	else{
 		input[0] = rand() % PENG_PER_PLAYER;
