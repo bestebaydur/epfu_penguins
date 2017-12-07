@@ -2,10 +2,12 @@
 * @author: Dawid Kopiczko
 *
 * File provides functions:
-* -  void LoadData()
+* -  void LoadData(char* input)
 *	Loads data from input file and assigns it to global variables.
-* -  void WriteData()
+*	Where input is a name of text file.
+* -  void WriteData(char* output)
 *	Writes data from variables to output file.
+*	Where output is a name of text file.
 * -  int GetField(int x, int y)
 *	Where x and y are coordinates of board.
 *	Returns int with the value of target field.
@@ -44,8 +46,8 @@ static int* scores;
 static int* penguins;
 
 // Local functions.
-static void openFiles(char* input, char* output);
-static void closeFiles();
+static void openFile(char* filename, int type);
+static void closeFile(int type);
 static void allocateMemory();
 static void loadSettings();
 static void loadBoard();
@@ -58,20 +60,22 @@ static void findPenguins();
 
 ////	GLOBAL	////
 
-void LoadData() {
-	openFiles("input.txt", "output.txt");
+void LoadData(char* input) {
+	openFile(input, 0);
 	loadSettings();
 	allocateMemory();
 	loadBoard();
 	loadScores();
 	findPenguins();
+	closeFile(0);
 }
 
-void WriteData() {
+void WriteData(char* output) {
+	openFile(output, 1);
 	writeSettings();
 	writeBoard();
 	writeScores();
-	closeFiles();
+	closeFile(1);
 }
 
 int GetField(int x, int y) {
@@ -102,14 +106,20 @@ void SetPenguin(int index, int x, int y) {
 
 ////	LOCAL	////
 
-static void openFiles(char* input, char* output) {
-	input_file = fopen(input, "r");
-	output_file = fopen(output, "w");
+static void openFile(char* filename, int type) {
+	// 0 - input  1 - output
+	if(type)
+		output_file = fopen(filename, "w");
+	else
+		input_file = fopen(filename, "r");
 }
 
-static void closeFiles() {
-	fclose(input_file);
-	fclose(output_file);
+static void closeFile(int type) {
+	// 0 - input  1 - output
+	if(type)
+		fclose(output_file);
+	else
+		fclose(input_file);
 }
 
 static void allocateMemory() {

@@ -5,6 +5,10 @@
 * -  void MakeMovement(int* input)
 *	It move target penguin in target direction for target distance from input.
 *	Also checks for possibility of this action and updates data.
+* -  void ChangePosition(int* position, int direction)
+*	It returns changed array with coordinates. It makes change by 'moving' in target direction.
+* -  int CheckPosition(int* position)
+*	It checks if target position is possible to move into.
 */
 
 #include <stdio.h>
@@ -26,8 +30,6 @@ void SetScore(int id, int value);
 
 
 // Local functions.
-static void changePosition(int* position, int direction);
-static int checkPosition(int* position);
 static void updateData(int penguin_index, int* last_position);
 
 
@@ -50,7 +52,7 @@ void MakeMovement(int* input) {
 
 	for (i = 0; i < distance; i++) {
 		// Changes position by one step.
-		changePosition(position, direction);
+		ChangePosition(position, direction);
 		// Checks if movement is possible.
 		if (checkPosition(position))
 			SetPenguin(penguin, position[0], position[1]);
@@ -62,9 +64,7 @@ void MakeMovement(int* input) {
 		updateData(penguin, last_position);
 }
 
-
-////	LOCAL	////
-static void changePosition(int* position, int direction) {
+void ChangePosition(int* position, int direction) {
 	int* x;
 	int* y;
 
@@ -111,7 +111,7 @@ static void changePosition(int* position, int direction) {
 	}
 }
 
-static int checkPosition(int* position) {
+int CheckPosition(int* position) {
 	int x, y, value;
 
 	x = position[0];
@@ -124,6 +124,8 @@ static int checkPosition(int* position) {
 		return 0;
 }
 
+
+////	LOCAL	////
 static void updateData(int penguin_index, int* last_position) {
 	int fish, score;
 	int* position;

@@ -3,6 +3,8 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 
 // Global variables.
@@ -14,8 +16,8 @@ int HEIGHT;
 
 
 // Global functions.
-void LoadData();
-void WriteData();
+void LoadData(char* input);
+void WriteData(char* output);
 int GetField(int x, int y);
 void SetField(int x, int y, int value);
 int GetScore(int id);
@@ -25,6 +27,8 @@ void SetPenguin(int index, int x, int y);
 void ShowData();
 void MakePlacement(int* input);
 void MakeMovement(int* input);
+int CheckPosition(int* position);
+void ChangePosition(int* position, int direction);
 int GetUserInput(int isPlacementPhase, int* input);
 int ChooseInput(int isPlacementPhase, int* input);
 
@@ -40,7 +44,7 @@ int main(int argc, char** argv) {
 	int input[3]; 
 	int isPlacementPhase, isInteractiveMode;
 	
-	if (argc < 4) {
+	if (argc < 6) {
 		printf("Arguments missing");
 		exit(1);
 	}
@@ -49,7 +53,7 @@ int main(int argc, char** argv) {
 	isInteractiveMode = atoi(argv[2]);
 	PLAYER_ID = atoi(argv[3]);
 
-	LoadData();
+	LoadData(argv[4]);
 
 	if (isInteractiveMode)
 		ShowData();
@@ -63,7 +67,7 @@ int main(int argc, char** argv) {
 
 	ShowData();
 
-	WriteData();
+	WriteData(argv[5]);
 
 	return 0;
 }
@@ -134,7 +138,6 @@ void ShowData() {
 }
 void MakePlacement(int* input) {}
 int GetUserInput(int isPlacementPhase, int* input) {
-	//Temporary
 	int p, dir, dis;
 
 	scanf("%d %d %d", &p, &dir, &dis);
@@ -145,4 +148,23 @@ int GetUserInput(int isPlacementPhase, int* input) {
 
 	return 1;
 }
-int ChooseInput(int isPlacementPhase, int* input) { return 1; }
+int ChooseInput(int isPlacementPhase, int* input) {
+	int seed, i;
+	int* pos;
+	time_t tt;
+	
+	seed = time(&tt);
+	srand(seed);
+
+	input[0] = rand() % PENG_PER_PLAYER;
+	for(i = 0; i < 20; i++){
+		pos = GetPenguin(input[0]);
+		input[1] = rand() % 6;
+		input[2] = rand() % 5;
+		ChangePosition(pos, input[1]);
+		if(CheckPosition(pos))
+			return 1;
+	}
+
+	return 1;
+}
