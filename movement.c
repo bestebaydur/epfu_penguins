@@ -27,6 +27,7 @@ int GetField(int x, int y);
 void SetField(int x, int y, int value);
 int GetScore(int id);
 void SetScore(int id, int value);
+void ChangePosition(int* position, int direction);
 
 
 // Local functions.
@@ -54,7 +55,7 @@ void MakeMovement(int* input) {
 		// Changes position by one step.
 		ChangePosition(position, direction);
 		// Checks if movement is possible.
-		if (checkPosition(position))
+		if (CheckPosition(position))
 			SetPenguin(penguin, position[0], position[1]);
 		else
 			break;
