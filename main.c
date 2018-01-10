@@ -94,7 +94,7 @@ void getInput(int isInteractiveMode, int isPlacementPhase, int* input) {
 
 
 // Temporary functions.
-void ShowData() {
+/*void ShowData() {
 	int i, j, k;
 
 	printf("\n");
@@ -135,7 +135,7 @@ void ShowData() {
 		printf("Player %d: %d ", i, GetScore(i));
 		printf("\n");
 	}
-}
+}*/
 void MakePlacement(int* input) {
 	int i, x, y;
 	x = input[0];
@@ -146,7 +146,7 @@ void MakePlacement(int* input) {
 		if(GetPenguin(i)[0] == -1){
 			SetPenguin(i, x, y);
 			SetField(x, y, -PLAYER_ID);
-			SetScore(PLAYER_ID, 1);
+			SetScore(PLAYER_ID, GetScore(PLAYER_ID) + 1);
 			break;
 		}
 	}

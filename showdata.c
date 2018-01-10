@@ -1,3 +1,4 @@
+// Andew Sevastianov
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +13,7 @@ int GetScore(int id);
 
 void ShowData()
 {
-  int i, j, faza;
+  int i, j, faza,kd=0;
   int a = HEIGHT;
   if (HEIGHT % 2 != 0)
     {
@@ -24,7 +25,7 @@ void ShowData()
     }
   faza = 0;
   //printing
-  for (j = 0; j < a / 2; ++j)
+  for (j = 0; j < a / 2; j++)
     {
         //phase 0 prints /\/\/\
         
@@ -44,16 +45,17 @@ void ShowData()
 	{
 	  for (i = 0; i < WIDTH; i++)
 	    {
-	        if(GetField(i, j)>=0){
+	        if(GetField(i, j+kd)>=0){
 	            printf("| ");
 	        }else
 	        {
 	            printf("|");
 	        }
-	      printf ("%d |   ", GetField(i, j));
+	      printf ("%d |   ", GetField(i, j+kd));
 	    }
 	  printf ("\n");
 	  faza = 2;
+		
 	}
 
       if (faza == 2& j != HEIGHT / 2)
@@ -70,16 +72,16 @@ void ShowData()
 	  printf ("    ");
 	  for (i = 0; i < WIDTH; i++)
 	    {
-	         if(GetField(i, j)>=0){
+	         if(GetField(i, j+kd+1)>=0){
 	            printf("| ");
 	        }else
 	        {
 	            printf("|");
 	        }
-	      printf ("%d |   ", GetField(i, j));
+	      printf ("%d |   ", GetField(i, j+kd+1));
 	    }
 	  printf ("\n");
-	  faza = 0;
+	  faza = 0;kd++;
 	}
       if (j == a / 2 - 1)
 	{
