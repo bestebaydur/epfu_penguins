@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int GetUserInput(int isPlacementPhase, int* input) {
+	int x, y;
+	int i1, i2_final, i3;
+	char *i2_choice;
+
+	if(isPlacementPhase) {
+		printf("\nChoose x and y coordinates\nx: ");
+		scanf("%d", &x);
+		printf("y: ");
+		scanf("%d", &y);
+
+		input[0] = x;
+		input[1] = y;
+
+		if(/*GetField(x, y) == */1)
+			return 1;
+		else
+			return 0;
+	} else {
+		printf("\nChoose\n");
+		printf("Penguin index: ");
+		scanf("%d", &i1);
+
+		printf("\nEnter direction: (ur = up-right, r = right, dr = down-right\ndl = down-left, l = left, ul = up-left\nDirection:  ");
+		scanf("%s", i2_choice);
+
+		if(strcmp(i2_choice, "ur") == 0) 
+			i2_final = 0;
+		else if(strcmp(i2_choice, "r") == 0)
+			i2_final = 1;
+		else if(strcmp(i2_choice, "dr") == 0)
+			i2_final = 2;
+		else if(strcmp(i2_choice, "dl") == 0)
+			i2_final = 3;
+		else if(strcmp(i2_choice, "l") == 0)
+			i2_final = 4;
+		else if(strcmp(i2_choice, "ul") == 0)
+			i2_final = 5;
+		else { 
+			printf("Invalid input, retry\n");
+			exit(-1);
+		}
+		printf("\nDistance: ");
+		scanf("%d", &i3);
+
+		input[0] = i1;
+		input[1] = i2_final;
+		input[2] = i3;
+
+		return 1;
+	}
+
+	return 0;
+}
+
+void test(int phase, int arr[]) {
+	int i = 0;
+	printf("input array modified to: ");
+	if(phase)
+		for (i = 0; i < 2; ++i)
+			printf("%d ", *(arr + i));
+	else
+		for (i = 0; i < 3; ++i)
+			printf("%d ", *(arr + i));
+	printf("\n");
+}
+
+int main(int argc, char const *argv[]) {
+	
+	int input[5];
+	GetUserInput(0, input);
+	test(0, input);
+
+	return 0;
+}
